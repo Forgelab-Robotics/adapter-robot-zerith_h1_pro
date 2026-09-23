@@ -1,0 +1,13 @@
+# ZERITH_H1_PRO + forge_runtime MuJoCo 节点 — 配置骨架（仅供裁剪参考）
+# 完整仿真配置见同目录 mujoco_H1_PRO/simulator.yaml。
+
+model_path: /ABS/PATH/TO/robots/ZERITH_H1_PRO/assets/mjcf/scene.xml
+control_hz: 50
+
+# 占位说明：该骨架仅供裁剪参考；完整配置以 mujoco_H1_PRO/simulator.yaml 为准
+joints: []
+
+robots:
+  - id: robot_0
+    prefix: item_1/
+    joints: []

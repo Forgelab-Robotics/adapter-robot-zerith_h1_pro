@@ -1,0 +1,50 @@
+# Zerith H1 Pro single Dora node config.
+# The node starts robot/camera SDK workers internally and publishes all outputs
+# from one Dora node. sdk_root is optional (bundled in PyInstaller binary).
+robot_ip: 10.20.0.75
+is_follower: true
+init_on_connect: true
+control_mode: low_level
+switch_mode_on_connect: true
+debug: false
+joint_fps: 100
+
+# LOW_LEVEL chassis locomotion limits. Verify geometry on the physical robot.
+wheel_radius_m: 0.0835
+wheel_track_width_m: 0.379
+locomotion_max_vx_mps: 0.08
+locomotion_max_wz_radps: 0.4
+locomotion_max_wheel_speed_radps: 1.0
+locomotion_command_timeout_seconds: 0.25
+
+# Camera gRPC 地址自动使用 robot_ip:50051。
+image_fps: 30
+
+cameras:
+  - name: rs/cam_left_wrist
+    output_id: image/left
+    enable_color: true
+    enable_depth: false
+    image_format: jpeg
+    image_jpeg_quality: 85
+    color_order: bgr
+    width: 640
+    height: 480
+  - name: rs/cam_right_wrist
+    output_id: image/right
+    enable_color: true
+    enable_depth: false
+    image_format: jpeg
+    image_jpeg_quality: 85
+    color_order: bgr
+    width: 640
+    height: 480
+  - name: rs/cam_high
+    output_id: image/high
+    enable_color: true
+    enable_depth: false
+    image_format: jpeg
+    image_jpeg_quality: 85
+    color_order: bgr
+    width: 640
+    height: 480

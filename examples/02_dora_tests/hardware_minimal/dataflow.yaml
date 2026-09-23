@@ -1,0 +1,56 @@
+# Zerith H1 Pro 真机最小 Dora demo。
+# 运行：
+#   cd /home/mrgh/code/robots/zerith_h1_pro/examples/02_dora_tests/hardware_minimal
+#   uv sync --project ../../..
+#   dora build dataflow.yaml --uv
+#   dora run dataflow.yaml --uv
+#
+# Dora 图中只暴露一个 zerith_h1_pro 节点；该节点内部使用 subprocess
+# 隔离 H1 robot SDK 与 camera SDK，避免同进程 native exit 139。
+# image / robot_0/state 都先进入 /home/mrgh/forge_binary/v2/task_robot。
+# policy_action_source 生成 action，经 task_robot 转为 robot_0/action 下发机器人。
+# GUI image_viewer 在部分无图形/OpenGL 环境会 glutin 初始化失败，控制测试默认不启动。
+
+nodes:
+  - id: zerith_h1_pro
+    path: ../../../dist/robots_zerith_h1_pro
+    inputs:
+      tick: dora/timer/millis/20
+      command: task_robot/robot_0/action
+      # Standard Forge input; connect directly to a LocomotionCommand source when used.
+      # locomotion_command: locomotion_source/locomotion_command
+    outputs:
+      - joint_state
+      - image/left
+      - image/right
+      - image/high
+    args: --config zerith_h1_pro.yaml
+
+  - id: task_robot
+    path: /home/mrgh/forge_binary/v2/task_robot
+    inputs:
+      tick: dora/timer/millis/20
+      action: policy_action_source/action
+      robot_0/state: zerith_h1_pro/joint_state
+      image/left: zerith_h1_pro/image/left
+      image/right: zerith_h1_pro/image/right
+      image/high: zerith_h1_pro/image/high
+    outputs:
+      - action
+      - robot_0/action
+      - proprio_state
+      - image/left
+      - image/right
+      - image/high
+    args: --config task_robot.yaml
+
+  - id: policy_action_source
+    path: test/policy_action_source.py
+    inputs:
+      tick: dora/timer/millis/100
+      joint_state: task_robot/proprio_state
+    outputs:
+      - action
+    args: >-
+      --gripper-amplitude 0.05
+      --period-seconds 4.0

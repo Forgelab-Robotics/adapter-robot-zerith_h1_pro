@@ -1,0 +1,16 @@
+# R1 VR / 同构标定模板
+# 复制为 vr_calibration.yaml 后填写，敏感标定勿入库。
+
+source: TBD
+recorded_at: TBD
+recorded_by: TBD
+
+left_arm:
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+  scale: 1.0
+  t_ee: [0, 0, 0]
+
+right_arm:
+  rotation: [[1, 0, 0], [0, 1, 0], [0, 0, 1]]
+  scale: 1.0
+  t_ee: [0, 0, 0]

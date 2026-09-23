@@ -1,0 +1,63 @@
+#! test_action_source 驱动 task_robot + mujoco（Zerith H1 PRO）
+#! 前置：工作区根下并列存在 forge_runtime 与当前机器人仓库
+#! 运行: dora build dataflow.test_action_source.yaml --uv && dora run dataflow.test_action_source.yaml --uv
+
+nodes:
+  - id: mujoco
+    path: ../../../../../../forge_runtime/packages/nodes/simulators/mujoco/main.py
+    inputs:
+      tick: dora/timer/millis/20
+      action: task_robot/action
+    outputs:
+      - proprio_state
+      - image/left_d405
+      - image/right_d405
+      - image/neck_d435
+    args: --config simulator.yaml
+
+  - id: task_robot
+    path: ../../../../../../forge_runtime/packages/nodes/task_robot/main.py
+    inputs:
+      tick: dora/timer/millis/20
+      action: test_action_source/action
+      proprio_state: mujoco/proprio_state
+      image/left_d405: mujoco/image/left_d405
+      image/right_d405: mujoco/image/right_d405
+      image/neck_d435: mujoco/image/neck_d435
+    outputs:
+      - action
+      - proprio_state
+      - image/left_d405
+      - image/right_d405
+      - image/neck_d435
+    args: --config task_robot.yaml
+
+  - id: test_action_source
+    path: ../../../../../../forge_runtime/packages/nodes/test_action_source/main.py
+    inputs:
+      tick: dora/timer/millis/200
+      proprio_state: task_robot/proprio_state
+    outputs:
+      - action
+    args: >-
+      --joint-order daogui_joint body_pitch_joint body_yaw_joint left_shoulder_pitch_joint left_shoulder_roll_joint left_shoulder_yaw_joint left_elbow_joint left_wrist_roll_joint left_wrist_yaw_joint left_wrist_pitch_joint left_jaw_left_finger_joint left_jaw_right_finger_joint right_shoulder_pitch_joint right_shoulder_roll_joint right_shoulder_yaw_joint right_elbow_joint right_wrist_roll_joint right_wrist_yaw_joint right_wrist_pitch_joint right_jaw_left_finger_joint right_jaw_right_finger_joint neck_yaw_joint neck_pitch_joint left_middle_wheel_joint right_middle_wheel_joint
+      --mode sweep
+      --output-kind action
+
+  - id: image_viewer
+    path: ${FORGE_RUNTIME_BIN}/image_viewer
+    inputs:
+      image/left_d405: task_robot/image/left_d405
+      image/right_d405: task_robot/image/right_d405
+      image/neck_d435: task_robot/image/neck_d435
+
+  - id: stream_viewer
+    path: ../../../../../../forge_runtime/packages/nodes/viewers/stream_viewer/main.py
+    inputs:
+      tick: dora/timer/millis/40
+      proprio_state: task_robot/proprio_state
+      action: task_robot/action
+      image/left_d405: task_robot/image/left_d405
+      image/right_d405: task_robot/image/right_d405
+      image/neck_d435: task_robot/image/neck_d435
+    args: --config stream_viewer.yaml

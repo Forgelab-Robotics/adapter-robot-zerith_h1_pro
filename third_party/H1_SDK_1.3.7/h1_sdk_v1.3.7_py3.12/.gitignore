@@ -1,0 +1,4 @@
+build/
+.venv-py312-build/
+__pycache__/
+*.pyc

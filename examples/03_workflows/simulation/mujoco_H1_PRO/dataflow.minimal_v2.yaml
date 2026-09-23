@@ -1,0 +1,61 @@
+# Zerith H1 Pro MuJoCo 最小 v2 协议 workflow。
+# 运行：
+#   dora build dataflow.minimal_v2.yaml
+#   dora run dataflow.minimal_v2.yaml
+#
+# 全链路使用 /home/mrgh/forge_binary/v2 二进制。
+# 当前 v2 仿真二进制仍以 action / proprio_state 作为 Dora 端口名，
+# 图像和状态仍统一先进入 task_robot，再由 task_robot 转发给下游节点。
+
+nodes:
+  - id: mujoco
+    path: /home/mrgh/forge_binary/v2/mujoco_sim
+    inputs:
+      tick: dora/timer/millis/20
+      action: task_robot/action
+    outputs:
+      - proprio_state
+      - image/global_overview
+      - image/left_d405
+      - image/right_d405
+      - image/neck_d435
+    args: --config simulator.yaml
+
+  - id: task_robot
+    path: /home/mrgh/forge_binary/v2/task_robot
+    inputs:
+      tick: dora/timer/millis/20
+      action: test_action_source/action
+      proprio_state: mujoco/proprio_state
+      image/global_overview: mujoco/image/global_overview
+      image/left_d405: mujoco/image/left_d405
+      image/right_d405: mujoco/image/right_d405
+      image/neck_d435: mujoco/image/neck_d435
+    outputs:
+      - action
+      - robot_0/action
+      - proprio_state
+      - image/global_overview
+      - image/left_d405
+      - image/right_d405
+      - image/neck_d435
+    args: --config task_robot.yaml
+
+  - id: test_action_source
+    path: /home/mrgh/forge_binary/v2/test_action_source
+    inputs:
+      tick: dora/timer/millis/200
+      proprio_state: task_robot/proprio_state
+    outputs:
+      - action
+    args: >-
+      --joint-order daogui_joint body_pitch_joint body_yaw_joint left_shoulder_pitch_joint left_shoulder_roll_joint left_shoulder_yaw_joint left_elbow_joint left_wrist_roll_joint left_wrist_yaw_joint left_wrist_pitch_joint left_jaw_left_finger_joint left_jaw_right_finger_joint right_shoulder_pitch_joint right_shoulder_roll_joint right_shoulder_yaw_joint right_elbow_joint right_wrist_roll_joint right_wrist_yaw_joint right_wrist_pitch_joint right_jaw_left_finger_joint right_jaw_right_finger_joint neck_yaw_joint neck_pitch_joint left_middle_wheel_joint right_middle_wheel_joint
+      --mode sweep
+
+  - id: image_viewer
+    path: /home/mrgh/forge_binary/v2/image_viewer
+    inputs:
+      image/global_overview: task_robot/image/global_overview
+      image/left_d405: task_robot/image/left_d405
+      image/right_d405: task_robot/image/right_d405
+      image/neck_d435: task_robot/image/neck_d435

@@ -1,0 +1,33 @@
+# 与 simulator / task_robot 的 joint_order、图像 output id 一致
+joint_order:
+  - daogui_joint
+  - body_pitch_joint
+  - body_yaw_joint
+  - left_shoulder_pitch_joint
+  - left_shoulder_roll_joint
+  - left_shoulder_yaw_joint
+  - left_elbow_joint
+  - left_wrist_roll_joint
+  - left_wrist_yaw_joint
+  - left_wrist_pitch_joint
+  - left_jaw_left_finger_joint
+  - left_jaw_right_finger_joint
+  - right_shoulder_pitch_joint
+  - right_shoulder_roll_joint
+  - right_shoulder_yaw_joint
+  - right_elbow_joint
+  - right_wrist_roll_joint
+  - right_wrist_yaw_joint
+  - right_wrist_pitch_joint
+  - right_jaw_left_finger_joint
+  - right_jaw_right_finger_joint
+  - neck_yaw_joint
+  - neck_pitch_joint
+  - left_middle_wheel_joint
+  - right_middle_wheel_joint
+image_input_ids:
+  - image/left_d405
+  - image/right_d405
+  - image/neck_d435
+port: 8765
+broadcast_hz: 24

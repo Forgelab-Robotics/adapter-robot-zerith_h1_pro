@@ -1,0 +1,50 @@
+[project]
+name = "zerith-h1-pro"
+version = "1.0.0"
+description = "Zerith H1 Pro Forge robot node and demos"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE", "THIRD_PARTY_NOTICES.md"]
+authors = [{ name = "PhyAgentOS Contributors" }]
+maintainers = [{ name = "PhyAgentOS Contributors" }]
+keywords = ["robot", "zerith", "h1-pro", "dora", "forge", "robotics"]
+dependencies = [
+    "av>=18,<19",
+    "dora-rs==0.4.1",
+    "forge-common>=1.0.1,<2",
+    "forge-msgs>=1.0.1,<2",
+    "forge-robot>=1.0.1,<2",
+    "numpy>=2.2",
+    "opencv-python>=4.10",
+    "protobuf>=6.33",
+    "pyyaml>=6.0",
+    "typer>=0.25.1",
+]
+
+[project.urls]
+Homepage = "https://github.com/Forgelab-Robotics/adapter-robot-zerith_h1_pro"
+Documentation = "https://github.com/Forgelab-Robotics/adapter-robot-zerith_h1_pro#readme"
+Repository = "https://github.com/Forgelab-Robotics/adapter-robot-zerith_h1_pro.git"
+Issues = "https://github.com/Forgelab-Robotics/adapter-robot-zerith_h1_pro/issues"
+
+[project.scripts]
+robots-zerith-h1-pro = "zerith_h1_pro.main:main"
+robots_zerith_h1_pro = "zerith_h1_pro.main:main"
+robot_zerith_h1_pro = "zerith_h1_pro.main:main"
+robots-zerith-h1-pro-camera = "zerith_h1_pro.camera_main:main"
+robots_zerith_h1_pro_camera = "zerith_h1_pro.camera_main:main"
+
+[project.optional-dependencies]
+pyinstaller = ["pyinstaller>=6.0"]
+test = ["pytest>=8", "mujoco>=3.8"]
+
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["zerith_h1_pro"]
+
+[tool.setuptools.package-dir]
+zerith_h1_pro = "src/robots_zerith_h1_pro"

@@ -1,0 +1,36 @@
+# Optional camera-only diagnostic config.
+# The default hardware demo now reads camera settings from zerith_h1_pro.yaml
+# and exposes a single Dora node; keep this file for camera_main.py debugging.
+sdk_root: ../../../third_party/H1_SDK_1.3.7
+robot_ip: 10.20.0.42
+# Camera gRPC 地址自动使用 robot_ip:50051。
+image_fps: 30
+
+cameras:
+  - name: rs/cam_left_wrist
+    output_id: image/left
+    enable_color: true
+    enable_depth: false
+    image_format: jpeg
+    image_jpeg_quality: 85
+    color_order: bgr
+    width: 640
+    height: 480
+  - name: rs/cam_right_wrist
+    output_id: image/right
+    enable_color: true
+    enable_depth: false
+    image_format: jpeg
+    image_jpeg_quality: 85
+    color_order: bgr
+    width: 640
+    height: 480
+  - name: rs/cam_high
+    output_id: image/high
+    enable_color: true
+    enable_depth: false
+    image_format: jpeg
+    image_jpeg_quality: 85
+    color_order: bgr
+    width: 640
+    height: 480

@@ -1,0 +1,71 @@
+# MuJoCo 节点：Zerith H1 PRO（scene.xml + attach prefix=item_1/）
+# model_path 相对本文件所在目录解析
+model_path: ../../../../assets/mjcf/scene.xml
+control_hz: 50
+image_format: raw
+
+# 相机名需与编译后模型一致（attach 后为 item_1/head_cam 等）。
+# global_overview 是 scene.xml 中的全局观察相机，用于查看整机位姿变化。
+image_forward:
+  global_overview: { output: "image/global_overview", fps: 30, width: 1280, height: 720 }
+  item_1/left_d405: { output: "image/left_d405", fps: 30, width: 1280, height: 720 }
+  item_1/right_d405: { output: "image/right_d405", fps: 30, width: 1280, height: 720 }
+  item_1/neck_d435: { output: "image/neck_d435", fps: 30, width: 1280, height: 720 }
+
+# JointCommand / JointState 的关节顺序（与 robots.joint_to_actuator 的键一致）
+joints:
+  - { name: daogui_joint, mode: position, unit: meters }
+  - { name: body_pitch_joint, mode: position, unit: radians }
+  - { name: body_yaw_joint, mode: position, unit: radians }
+  - { name: left_shoulder_pitch_joint, mode: position, unit: radians }
+  - { name: left_shoulder_roll_joint, mode: position, unit: radians }
+  - { name: left_shoulder_yaw_joint, mode: position, unit: radians }
+  - { name: left_elbow_joint, mode: position, unit: radians }
+  - { name: left_wrist_roll_joint, mode: position, unit: radians }
+  - { name: left_wrist_yaw_joint, mode: position, unit: radians }
+  - { name: left_wrist_pitch_joint, mode: position, unit: radians }
+  - { name: left_jaw_left_finger_joint, mode: position, unit: meters }
+  - { name: left_jaw_right_finger_joint, mode: position, unit: meters }
+  - { name: right_shoulder_pitch_joint, mode: position, unit: radians }
+  - { name: right_shoulder_roll_joint, mode: position, unit: radians }
+  - { name: right_shoulder_yaw_joint, mode: position, unit: radians }
+  - { name: right_elbow_joint, mode: position, unit: radians }
+  - { name: right_wrist_roll_joint, mode: position, unit: radians }
+  - { name: right_wrist_yaw_joint, mode: position, unit: radians }
+  - { name: right_wrist_pitch_joint, mode: position, unit: radians }
+  - { name: right_jaw_left_finger_joint, mode: position, unit: meters }
+  - { name: right_jaw_right_finger_joint, mode: position, unit: meters }
+  - { name: neck_yaw_joint, mode: position, unit: radians }
+  - { name: neck_pitch_joint, mode: position, unit: radians }
+  - { name: left_middle_wheel_joint, mode: velocity, unit: radians/s }
+  - { name: right_middle_wheel_joint, mode: velocity, unit: radians/s }
+
+robots:
+  - id: robot_0
+    prefix: item_1/
+    joints:
+      - daogui_joint
+      - body_pitch_joint
+      - body_yaw_joint
+      - left_shoulder_pitch_joint
+      - left_shoulder_roll_joint
+      - left_shoulder_yaw_joint
+      - left_elbow_joint
+      - left_wrist_roll_joint
+      - left_wrist_yaw_joint
+      - left_wrist_pitch_joint
+      - left_jaw_left_finger_joint
+      - left_jaw_right_finger_joint
+      - right_shoulder_pitch_joint
+      - right_shoulder_roll_joint
+      - right_shoulder_yaw_joint
+      - right_elbow_joint
+      - right_wrist_roll_joint
+      - right_wrist_yaw_joint
+      - right_wrist_pitch_joint
+      - right_jaw_left_finger_joint
+      - right_jaw_right_finger_joint
+      - neck_yaw_joint
+      - neck_pitch_joint
+      - left_middle_wheel_joint
+      - right_middle_wheel_joint

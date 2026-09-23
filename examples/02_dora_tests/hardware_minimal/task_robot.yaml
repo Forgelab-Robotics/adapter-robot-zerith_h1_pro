@@ -1,0 +1,82 @@
+# Zerith H1 Pro 真机 task_robot 配置。
+# joint_state / image 由 robot 节点进入 task_robot 后统一转发。
+joints:
+  - { name: wheel_left, mode: velocity, unit: radians/s }
+  - { name: wheel_right, mode: velocity, unit: radians/s }
+  - { name: lift, mode: position, unit: meters }
+  - { name: waist_down, mode: position, unit: radians }
+  - { name: waist_up, mode: position, unit: radians }
+  - { name: head_down, mode: position, unit: radians }
+  - { name: head_up, mode: position, unit: radians }
+  - { name: left_arm_1, mode: position, unit: radians }
+  - { name: left_arm_2, mode: position, unit: radians }
+  - { name: left_arm_3, mode: position, unit: radians }
+  - { name: left_arm_4, mode: position, unit: radians }
+  - { name: left_arm_5, mode: position, unit: radians }
+  - { name: left_arm_6, mode: position, unit: radians }
+  - { name: left_arm_7, mode: position, unit: radians }
+  - { name: left_gripper, mode: position, unit: meters }
+  - { name: right_arm_1, mode: position, unit: radians }
+  - { name: right_arm_2, mode: position, unit: radians }
+  - { name: right_arm_3, mode: position, unit: radians }
+  - { name: right_arm_4, mode: position, unit: radians }
+  - { name: right_arm_5, mode: position, unit: radians }
+  - { name: right_arm_6, mode: position, unit: radians }
+  - { name: right_arm_7, mode: position, unit: radians }
+  - { name: right_gripper, mode: position, unit: meters }
+
+robots:
+  - id: robot_0
+    actuator_order:
+      - wheel_left
+      - wheel_right
+      - lift
+      - waist_down
+      - waist_up
+      - head_down
+      - head_up
+      - left_arm_1
+      - left_arm_2
+      - left_arm_3
+      - left_arm_4
+      - left_arm_5
+      - left_arm_6
+      - left_arm_7
+      - left_gripper
+      - right_arm_1
+      - right_arm_2
+      - right_arm_3
+      - right_arm_4
+      - right_arm_5
+      - right_arm_6
+      - right_arm_7
+      - right_gripper
+    joint_to_actuator:
+      wheel_left: wheel_left
+      wheel_right: wheel_right
+      lift: lift
+      waist_down: waist_down
+      waist_up: waist_up
+      head_down: head_down
+      head_up: head_up
+      left_arm_1: left_arm_1
+      left_arm_2: left_arm_2
+      left_arm_3: left_arm_3
+      left_arm_4: left_arm_4
+      left_arm_5: left_arm_5
+      left_arm_6: left_arm_6
+      left_arm_7: left_arm_7
+      left_gripper: left_gripper
+      right_arm_1: right_arm_1
+      right_arm_2: right_arm_2
+      right_arm_3: right_arm_3
+      right_arm_4: right_arm_4
+      right_arm_5: right_arm_5
+      right_arm_6: right_arm_6
+      right_arm_7: right_arm_7
+      right_gripper: right_gripper
+
+image_forward:
+  image/left: image/left
+  image/right: image/right
+  image/high: image/high

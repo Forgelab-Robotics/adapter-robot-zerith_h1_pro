@@ -1,0 +1,78 @@
+# Zerith H1 Pro 节点配置示例
+# 复制为 config.yaml 并根据实际环境修改
+#
+# sdk_root 可省略：源码开发默认使用仓内 third_party/H1_SDK_1.3.7；
+# PyInstaller 打包节点会自动使用内置 SDK，无需配置相对路径。
+# sdk_root: /path/to/H1_SDK_1.3.7
+
+# SDK 运行在机器人主机时可留空；在外部主机运行可填写机器人 IP（例如 172.31.200.1）
+robot_ip:
+
+# 是否为从臂模式（接收 command 并执行），默认 true
+is_follower: true
+
+# 连接时是否 robot_init（建议 follower=true 时保持 true）
+init_on_connect: true
+
+# 启动时目标控制模式：
+# - uninitialized
+# - low_level
+# - gravity_compensation_level
+control_mode: low_level
+
+# 连接后是否自动切换到 control_mode
+switch_mode_on_connect: true
+
+# 是否打印调试日志
+debug: false
+
+# 生命周期位姿配置。关节单位为弧度，lift / gripper 单位为米；未写执行器使用默认值。
+# wheel_left / wheel_right 不参与生命周期 position，但保留在 JointCommand/JointState velocity 合同中。
+# initial: 从臂连接初始化后移动到此位，默认 lift=0.5、双夹爪 opening=0.08，其余 0。
+# reset: 从臂断开前移动到此安全位，默认 lift=0.5、双夹爪 opening=0.08，其余 0。
+# initial/reset 从当前实际位置平滑移动到目标位姿的时长（秒）。
+lifecycle_position_move_seconds: 3.0
+# positions:
+#   initial:
+#     lift: 0.5
+#     left_arm_2: 0.5
+#     right_arm_2: -0.5
+#     left_gripper: 0.04
+#     right_gripper: 0.04
+#   reset:
+#     lift: 0.0
+#     left_arm_2: 0.0
+#     right_arm_2: 0.0
+
+# LOW_LEVEL 移动底盘安全参数。轮径/轮距来自交付模型，真机启用前必须复核。
+wheel_radius_m: 0.0835
+wheel_track_width_m: 0.379
+locomotion_max_vx_mps: 0.08
+locomotion_max_wz_radps: 0.4
+locomotion_max_wheel_speed_radps: 1.0
+# 非零 locomotion_command 必须持续刷新，超时自动给双轮发送 0。
+locomotion_command_timeout_seconds: 0.25
+
+# 相机 gRPC 地址自动使用 robot_ip:50051。
+# 图像采集后台线程频率（默认 30 FPS）
+image_fps: 30
+
+# 关节采集后台线程频率（默认 100 Hz）
+joint_fps: 100
+
+# 启用的相机流列表（可选）
+# cameras:
+#   - name: rs/cam_left_wrist
+#     output_id: image/left
+#     enable_color: true
+#     image_format: jpeg
+#     image_jpeg_quality: 85
+#     color_order: bgr
+#     width: 640
+#     height: 480
+
+# 可选：覆盖通用 23 项 actuator 顺序；wheel 可按 velocity 模式保留。
+# actuator_order:
+#   - left_arm_1
+#   - left_arm_2
+#   - left_arm_3
